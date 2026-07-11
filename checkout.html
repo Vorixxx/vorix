@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام الطلب | VORIX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .checkout-page { padding: 100px 0 80px; }
+        .checkout-layout { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start; }
+        @media (max-width: 900px) { .checkout-layout { grid-template-columns: 1fr; } }
+
+        .form-card { background: var(--primary-bg); border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 40px; }
+        .form-group { margin-bottom: 24px; }
+        .form-label { display: block; font-weight: 700; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--secondary-bg);
+            color: var(--primary-text);
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            transition: border-color var(--t-fast);
+        }
+        .form-control:focus { outline: none; border-color: var(--accent-color); }
+
+        .wa-info-box {
+            display: flex;
+            gap: 14px;
+            padding: 18px 20px;
+            background: rgba(122,31,61,0.06);
+            border: 1.5px solid var(--accent-color);
+            border-radius: var(--radius-md);
+            margin-bottom: 32px;
+        }
+        .wa-info-box i { font-size: 1.6rem; color: #25D366; flex-shrink: 0; margin-top: 2px; }
+        .wa-info-box strong { font-weight: 800; display: block; margin-bottom: 4px; }
+        .wa-info-box p { margin: 0; font-size: 0.88rem; color: var(--secondary-text); }
+
+        .order-card { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 32px; position: sticky; top: 90px; }
+        .order-item { display: flex; gap: 14px; margin-bottom: 20px; align-items: center; }
+        .order-item img { width: 64px; height: 80px; border-radius: var(--radius-md); object-fit: cover; border: 1px solid var(--border-color); flex-shrink: 0; }
+        .order-item-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 3px; }
+        .order-item-meta { font-size: 0.78rem; color: var(--secondary-text); }
+        .order-item-price { font-weight: 900; margin-right: auto; }
+        .order-row { display: flex; justify-content: space-between; font-weight: 600; color: var(--secondary-text); margin-bottom: 12px; }
+        .order-total { display: flex; justify-content: space-between; font-weight: 900; font-size: 1.2rem; margin-top: 20px; padding-top: 20px; border-top: 2px solid var(--border-color); }
+        .trust-mini { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 14px; }
+        .trust-mini-item { display: flex; align-items: center; gap: 12px; }
+        .trust-mini-item i { color: var(--accent-color); font-size: 1.1rem; width: 20px; }
+        .trust-mini-item div h6 { font-size: 0.88rem; margin-bottom: 2px; }
+        .trust-mini-item div p  { font-size: 0.78rem; color: var(--secondary-text); margin: 0; }
+    </style>
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-item">⚡ شحن سريع لجميع المحافظات</span>
+            <span class="announcement-item">💎 دفع آمن عند الاستلام</span>
+        </div>
+    </div>
+    <!-- Header -->
+    <header class="header" id="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="nav-logo">VORIX</a>
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html">الرئيسية</a><a href="shop.html">المنتجات</a><a href="contact.html">تواصل معنا</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="nav-icon-btn"><i class="fa-solid fa-moon"></i></button>
+                <a href="cart.html" class="nav-icon-btn">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count" style="display:none;">0</span>
+                </a>
+                <button class="mobile-menu-btn nav-icon-btn" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="checkout-page container">
+        <h1 class="section-title animate-fade-up" style="margin-bottom:40px;text-align:center;">إتمام الطلب</h1>
+        <div id="checkout-content"></div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:1px solid #1C1C1C;padding-top:24px;">
+                <p class="footer-copy">&copy; 2026 VORIX. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cart = JSON.parse(localStorage.getItem('vorix-cart')) || [];
+        const content = document.getElementById('checkout-content');
+
+        if (!cart.length) {
+            content.innerHTML = `<div style="text-align:center;padding:60px 0;">
+                <h2>السلة فارغة</h2>
+                <a href="shop.html" class="btn btn-primary" style="margin-top:20px;">العودة للمتجر</a>
+            </div>`;
+            return;
+        }
+
+        let sub = 0;
+        const itemsHTML = cart.map(item => {
+            sub += item.price * item.quantity;
+            return `<div class="order-item">
+                <img src="${item.image}" alt="${item.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 80%22><text y=%2256%22 font-size=%2240%22>👕</text></svg>'">
+                <div style="flex:1;">
+                    <div class="order-item-name">${item.name}</div>
+                    <div class="order-item-meta">${item.color} · ${item.size} · الكمية: ${item.quantity}</div>
+                </div>
+                <div class="order-item-price">${formatPrice(item.price * item.quantity)}</div>
+            </div>`;
+        }).join('');
+
+        const govsHTML = governorates.map(g =>
+            `<option value="${g.name}" data-shipping="${g.shipping}">${g.name} (+${g.shipping} جنيه شحن)</option>`
+        ).join('');
+
+        content.innerHTML = `<div class="checkout-layout">
+            <div class="form-card">
+                <div class="wa-info-box">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <div>
+                        <strong>طلب مباشر عبر واتساب</strong>
+                        <p>أكمل بياناتك وسنرسل طلبك تلقائياً. الدفع عند الاستلام فقط.</p>
+                    </div>
+                </div>
+                <form id="checkout-form">
+                    <h3 style="font-size:1.2rem;margin-bottom:28px;font-weight:800;border-bottom:1px solid var(--border-color);padding-bottom:12px;">بيانات التوصيل</h3>
+                    <div class="form-group">
+                        <label class="form-label">الاسم الكامل</label>
+                        <input type="text" class="form-control" id="name" required placeholder="أدخل اسمك بالكامل">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رقم الهاتف (واتساب)</label>
+                        <input type="tel" class="form-control" id="phone" required placeholder="01XXXXXXXXX" dir="ltr" style="text-align:right;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">المحافظة</label>
+                        <select class="form-control" id="governorate" required>
+                            <option value="" disabled selected>اختر المحافظة</option>
+                            ${govsHTML}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">العنوان التفصيلي</label>
+                        <textarea class="form-control" id="address" rows="3" required placeholder="الشارع، رقم العمارة، الدور، شقة..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ملاحظات (اختياري)</label>
+                        <textarea class="form-control" id="notes" rows="2" placeholder="أي تفاصيل إضافية..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full btn-lg">
+                        تأكيد الطلب عبر واتساب <i class="fa-brands fa-whatsapp" style="color:#25D366;"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="order-card">
+                <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:20px;border-bottom:1px solid var(--border-color);padding-bottom:12px;">ملخص الطلب</h3>
+                ${itemsHTML}
+                <div class="order-row"><span>المجموع</span><span>${formatPrice(sub)}</span></div>
+                <div class="order-row"><span>الشحن</span><span id="shipping-display">اختر المحافظة</span></div>
+                <div class="order-total"><span>الإجمالي</span><span id="total-display">${formatPrice(sub)}</span></div>
+                <div class="trust-mini">
+                    <div class="trust-mini-item">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <div><h6>توصيل سريع وموثوق</h6><p>2-4 أيام لجميع المحافظات</p></div>
+                    </div>
+                    <div class="trust-mini-item">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                        <div><h6>الدفع عند الاستلام</h6><p>ادفع بعد المعاينة</p></div>
+                    </div>
+                    <div class="trust-mini-item">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <div><h6>استبدال مجاني</h6><p>خلال 14 يوم من الاستلام</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        let shippingCost = 0;
+        document.getElementById('governorate').addEventListener('change', e => {
+            const opt = e.target.options[e.target.selectedIndex];
+            shippingCost = parseInt(opt.dataset.shipping) || 0;
+            document.getElementById('shipping-display').textContent = formatPrice(shippingCost);
+            document.getElementById('total-display').textContent = formatPrice(sub + shippingCost);
+        });
+
+        document.getElementById('checkout-form').addEventListener('submit', e => {
+            e.preventDefault();
+            if (!shippingCost) { alert('يرجى اختيار المحافظة أولاً'); return; }
+
+            const name    = document.getElementById('name').value;
+            const phone   = document.getElementById('phone').value;
+            const gov     = document.getElementById('governorate').value;
+            const address = document.getElementById('address').value;
+            const notes   = document.getElementById('notes').value;
+
+            let msg = `*طلب جديد — VORIX*%0A`;
+            msg += `----------------------------%0A`;
+            msg += `*الاسم:* ${name}%0A`;
+            msg += `*الموبايل:* ${phone}%0A`;
+            msg += `*المحافظة:* ${gov}%0A`;
+            msg += `*العنوان:* ${address}%0A`;
+            if (notes) msg += `*ملاحظات:* ${notes}%0A`;
+            msg += `----------------------------%0A`;
+            msg += `*المنتجات:*%0A`;
+            cart.forEach((item, i) => {
+                msg += `${i+1}. ${item.name} (${item.color} - ${item.size}) x${item.quantity} = ${item.price * item.quantity} جنيه%0A`;
+            });
+            msg += `----------------------------%0A`;
+            msg += `*المجموع:* ${sub} جنيه%0A`;
+            msg += `*الشحن:* ${shippingCost} جنيه%0A`;
+            msg += `*الإجمالي:* ${sub + shippingCost} جنيه%0A`;
+
+            localStorage.removeItem('vorix-cart');
+            window.location.href = `https://wa.me/201060018512?text=${msg}`;
+        });
+    });
+    </script>
+</body>
+</html>

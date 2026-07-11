@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلة المشتريات | VORIX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .cart-page { padding: 100px 0 80px; min-height: 70vh; }
+        .cart-layout { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start; }
+        @media (max-width: 900px) { .cart-layout { grid-template-columns: 1fr; } }
+
+        .cart-panel { background: var(--primary-bg); border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 32px; }
+
+        .cart-item { display: grid; grid-template-columns: 100px 1fr auto; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border-color); align-items: center; }
+        .cart-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .cart-item img { width: 100px; height: 120px; object-fit: cover; border-radius: var(--radius-md); background: var(--secondary-bg); border: 1px solid var(--border-color); }
+        .cart-item-name { font-weight: 800; font-size: 1rem; margin-bottom: 4px; }
+        .cart-item-meta { color: var(--secondary-text); font-size: 0.82rem; font-weight: 600; margin-bottom: 14px; }
+        .cart-item-price { font-weight: 900; font-size: 1.1rem; }
+
+        .qty-row { display: inline-flex; align-items: center; border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; background: var(--secondary-bg); }
+        .qty-row button { width: 36px; height: 38px; border: none; background: transparent; font-weight: 800; font-size: 1rem; cursor: pointer; color: var(--primary-text); transition: background var(--t-fast); }
+        .qty-row button:hover { background: var(--border-color); }
+        .qty-row span { width: 40px; text-align: center; font-weight: 800; font-size: 0.95rem; border-left: 1.5px solid var(--border-color); border-right: 1.5px solid var(--border-color); display: flex; align-items: center; justify-content: center; height: 38px; }
+        .remove-btn { font-size: 0.8rem; font-weight: 700; color: var(--error-color); background: none; border: none; cursor: pointer; text-decoration: underline; margin-top: 8px; display: block; }
+
+        .summary-panel { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 32px; position: sticky; top: 90px; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 14px; font-weight: 600; color: var(--secondary-text); }
+        .summary-total { display: flex; justify-content: space-between; padding-top: 20px; margin-top: 20px; border-top: 2px solid var(--border-color); font-size: 1.3rem; font-weight: 900; }
+        .empty-state { text-align: center; padding: 80px 20px; }
+        .empty-state i { font-size: 4rem; color: var(--border-color); margin-bottom: 20px; display: block; }
+    </style>
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-item">⚡ شحن سريع لجميع المحافظات</span>
+            <span class="announcement-item">🔥 كود خصم 15%: <span>VORIX15</span></span>
+            <span class="announcement-item">💎 دفع آمن عند الاستلام</span>
+        </div>
+    </div>
+    <!-- Header -->
+    <header class="header" id="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="nav-logo">VORIX</a>
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html">الرئيسية</a><a href="shop.html">المنتجات</a><a href="shop.html">التصنيفات</a><a href="contact.html">تواصل معنا</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="nav-icon-btn"><i class="fa-solid fa-moon"></i></button>
+                <a href="wishlist.html" class="nav-icon-btn"><i class="fa-regular fa-heart"></i></a>
+                <a href="cart.html" class="nav-icon-btn" style="color:var(--accent-color);">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count" style="display:none;">0</span>
+                </a>
+                <button class="mobile-menu-btn nav-icon-btn" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="cart-page container">
+        <h1 class="section-title animate-fade-up" style="margin-bottom:40px;">سلة المشتريات</h1>
+        <div id="cart-content"></div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:1px solid #1C1C1C;padding-top:24px;">
+                <p class="footer-copy">&copy; 2026 VORIX. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const render = () => {
+            const cart = JSON.parse(localStorage.getItem('vorix-cart')) || [];
+            const content = document.getElementById('cart-content');
+            if (!cart.length) {
+                content.innerHTML = `<div class="empty-state"><i class="fa-solid fa-cart-arrow-down"></i><h2>السلة فارغة</h2><p>لم تضف أي منتجات بعد.</p><a href="shop.html" class="btn btn-primary" style="margin-top:20px;">تصفح المنتجات</a></div>`;
+                return;
+            }
+            let sub = 0;
+            let itemsHTML = cart.map((item, i) => {
+                sub += item.price * item.quantity;
+                return `<div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 120%22><text y=%2270%22 font-size=%2250%22>👕</text></svg>'">
+                    <div>
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-meta">اللون: ${item.color} | المقاس: ${item.size}</div>
+                        <div class="qty-row">
+                            <button onclick="chQty(${i},1)">+</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="chQty(${i},-1)">-</button>
+                        </div>
+                        <button class="remove-btn" onclick="rmItem(${i})">إزالة</button>
+                    </div>
+                    <div class="cart-item-price">${formatPrice(item.price * item.quantity)}</div>
+                </div>`;
+            }).join('');
+
+            content.innerHTML = `<div class="cart-layout">
+                <div class="cart-panel">${itemsHTML}</div>
+                <div class="summary-panel">
+                    <h3 style="font-size:1.2rem;margin-bottom:24px;font-weight:800;">ملخص الطلب</h3>
+                    <div class="summary-row"><span>المجموع الفرعي</span><span>${formatPrice(sub)}</span></div>
+                    <div class="summary-row"><span>الشحن</span><span>يُحسب عند الدفع</span></div>
+                    <div class="summary-total"><span>الإجمالي</span><span>${formatPrice(sub)}</span></div>
+                    <a href="checkout.html" class="btn btn-primary btn-full btn-lg" style="margin-top:28px;">
+                        متابعة الشراء <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                    <div style="display:flex;justify-content:center;gap:12px;margin-top:20px;color:var(--secondary-text);">
+                        <i class="fa-brands fa-cc-visa" style="font-size:1.8rem;"></i>
+                        <i class="fa-brands fa-cc-mastercard" style="font-size:1.8rem;"></i>
+                        <i class="fa-solid fa-money-bill-wave" style="font-size:1.8rem;"></i>
+                    </div>
+                </div>
+            </div>`;
+        };
+
+        window.chQty = (i, d) => {
+            let cart = JSON.parse(localStorage.getItem('vorix-cart')) || [];
+            cart[i].quantity = Math.max(1, cart[i].quantity + d);
+            localStorage.setItem('vorix-cart', JSON.stringify(cart));
+            window.updateCartCount();
+            render();
+        };
+        window.rmItem = (i) => {
+            let cart = JSON.parse(localStorage.getItem('vorix-cart')) || [];
+            cart.splice(i, 1);
+            localStorage.setItem('vorix-cart', JSON.stringify(cart));
+            window.updateCartCount();
+            render();
+        };
+
+        render();
+    });
+    </script>
+</body>
+</html>

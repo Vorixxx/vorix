@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل المنتج | VORIX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .product-page { padding: 100px 0 80px; }
+
+        .product-layout {
+            display: grid;
+            grid-template-columns: 1fr 480px;
+            gap: 64px;
+            align-items: start;
+        }
+        @media (max-width: 960px) { .product-layout { grid-template-columns: 1fr; gap: 40px; } }
+
+        /* Gallery */
+        .p-gallery-main {
+            aspect-ratio: 4/5;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            background: var(--secondary-bg);
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+        .p-gallery-main img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform var(--t-slow) var(--ease-out);
+        }
+        .p-gallery-main:hover img { transform: scale(1.04); }
+        .p-thumbs { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 12px; }
+        .p-thumb {
+            aspect-ratio: 1;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            background: var(--secondary-bg);
+            transition: border-color var(--t-fast);
+        }
+        .p-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .p-thumb.active { border-color: var(--accent-color); }
+        .p-thumb:hover { border-color: var(--accent-color); }
+
+        /* Info sticky panel */
+        .p-info { position: sticky; top: 90px; }
+
+        .p-price-row { display: flex; align-items: baseline; gap: 12px; margin: 20px 0; }
+        .p-price-new { font-size: 2rem; font-weight: 900; color: var(--primary-text); }
+        .p-price-old { font-size: 1.1rem; color: var(--secondary-text); text-decoration: line-through; }
+
+        /* Option buttons */
+        .opt-btn {
+            padding: 11px 20px;
+            border: 1.5px solid var(--border-color);
+            background: var(--primary-bg);
+            color: var(--primary-text);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--t-fast);
+        }
+        .opt-btn:hover { border-color: var(--primary-text); }
+        .opt-btn.active {
+            background: var(--primary-text);
+            color: var(--primary-bg);
+            border-color: var(--primary-text);
+        }
+
+        /* Color btn */
+        .clr-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            padding: 3px;
+            background-clip: content-box;
+            box-shadow: 0 0 0 1px var(--border-color);
+            transition: transform var(--t-fast), box-shadow var(--t-fast);
+        }
+        .clr-btn:hover { transform: scale(1.15); }
+        .clr-btn.active { box-shadow: 0 0 0 2px var(--accent-color); }
+
+        /* Qty */
+        .qty-wrap {
+            display: inline-flex;
+            align-items: center;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--secondary-bg);
+        }
+        .qty-btn {
+            width: 42px; height: 46px;
+            border: none;
+            background: transparent;
+            color: var(--primary-text);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background var(--t-fast);
+        }
+        .qty-btn:hover { background: var(--border-color); }
+        .qty-input {
+            width: 52px;
+            text-align: center;
+            border: none;
+            border-right: 1.5px solid var(--border-color);
+            border-left:  1.5px solid var(--border-color);
+            background: transparent;
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--primary-text);
+        }
+
+        /* Delivery badge */
+        .delivery-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+        .delivery-badge i { color: var(--success-color); font-size: 1.2rem; }
+        .delivery-badge strong { font-weight: 800; color: var(--primary-text); }
+        .delivery-badge p { margin: 0; font-size: 0.82rem; }
+
+        /* Trust strip */
+        .p-trust {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 10px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+        .p-trust-item {
+            text-align: center;
+            padding: 14px 10px;
+            border-radius: var(--radius-md);
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+        }
+        .p-trust-item i { font-size: 1.3rem; color: var(--accent-color); margin-bottom: 6px; display: block; }
+        .p-trust-item span { font-size: 0.78rem; font-weight: 700; display: block; }
+
+        /* Accordion */
+        .accordion { border-top: 1px solid var(--border-color); margin-top: 28px; }
+        .acc-item { border-bottom: 1px solid var(--border-color); }
+        .acc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--primary-text);
+            user-select: none;
+            transition: color var(--t-fast);
+        }
+        .acc-header:hover { color: var(--accent-color); }
+        .acc-header i { font-size: 0.8rem; transition: transform var(--t-fast); }
+        .acc-body {
+            display: none;
+            padding: 0 0 20px;
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        .acc-body ul { padding-right: 16px; display: flex; flex-direction: column; gap: 6px; }
+        .acc-body li::before { content: '✓ '; color: var(--accent-color); font-weight: 700; }
+        .acc-item.open .acc-header i { transform: rotate(180deg); }
+        .acc-item.open .acc-body { display: block; }
+
+        /* Related grid */
+        .related-section { padding: 80px 0; border-top: 1px solid var(--border-color); }
+        .p-grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+        @media (max-width:960px) { .p-grid-4 { grid-template-columns: repeat(2,1fr); } }
+    </style>
+</head>
+<body>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-item">⚡ شحن سريع لجميع المحافظات</span>
+            <span class="announcement-item">🔥 كود خصم 15%: <span>VORIX15</span></span>
+            <span class="announcement-item">💎 دفع آمن عند الاستلام</span>
+            <span class="announcement-item">⚡ شحن سريع لجميع المحافظات</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="nav-logo">VORIX</a>
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="shop.html">المنتجات</a>
+                <a href="shop.html">التصنيفات</a>
+                <a href="shop.html">الأكثر مبيعاً</a>
+                <a href="contact.html">تواصل معنا</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="nav-icon-btn"><i class="fa-solid fa-moon"></i></button>
+                <a href="shop.html" class="nav-icon-btn"><i class="fa-solid fa-magnifying-glass"></i></a>
+                <a href="wishlist.html" class="nav-icon-btn"><i class="fa-regular fa-heart"></i></a>
+                <a href="cart.html" class="nav-icon-btn">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count" style="display:none;">0</span>
+                </a>
+                <button class="mobile-menu-btn nav-icon-btn" id="mobile-menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Main -->
+    <main class="product-page container" id="product-container">
+        <!-- Injected via JS -->
+    </main>
+
+    <!-- Related Products -->
+    <section class="related-section container">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;" class="reveal">
+            <div>
+                <span class="section-label">قد يعجبك أيضاً</span>
+                <h2 class="section-title">يُشترى معاً عادةً</h2>
+            </div>
+        </div>
+        <div class="p-grid-4" id="related-grid"></div>
+    </section>
+
+    <!-- Sticky Mobile CTA -->
+    <div class="sticky-mobile-cta" id="mobile-cta">
+        <div style="flex:1;">
+            <div id="mobile-price" style="font-weight:900;font-size:1.15rem;"></div>
+            <div style="font-size:0.72rem;color:var(--secondary-text);font-weight:600;">توصيل مجاني</div>
+        </div>
+        <button id="mobile-order-btn" class="btn btn-primary" style="flex:1.5;">اطلب الآن <i class="fa-brands fa-whatsapp"></i></button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand-logo">VORIX</div>
+                    <p class="footer-brand-desc">نحن نصنع ملابس رياضية عالية الجودة لمن يعيش رياضياً ويبحث عن الأفضل.</p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-btn"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>تسوق</h4>
+                    <ul>
+                        <li><a href="shop.html">كل المنتجات</a></li>
+                        <li><a href="shop.html">العروض</a></li>
+                        <li><a href="shop.html">الجديد</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>خدمة العملاء</h4>
+                    <ul>
+                        <li><a href="contact.html">تواصل معنا</a></li>
+                        <li><a href="#">الاسترجاع</a></li>
+                        <li><a href="#">الشحن</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>معلومات</h4>
+                    <ul>
+                        <li><a href="#">من نحن</a></li>
+                        <li><a href="#">الشروط والأحكام</a></li>
+                        <li><a href="#">الخصوصية</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">&copy; 2026 VORIX. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const params    = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+        const container = document.getElementById('product-container');
+        const product   = products.find(p => p.id === productId);
+
+        if (!product) {
+            container.innerHTML = `<div style="text-align:center;padding:100px 0;">
+                <h1>المنتج غير موجود</h1>
+                <a href="shop.html" class="btn btn-primary" style="margin-top:24px;">العودة للمتجر</a>
+            </div>`;
+            return;
+        }
+
+        document.title = `${product.name} | VORIX`;
+        const finalPrice = product.price - product.discount;
+        document.getElementById('mobile-price').textContent = formatPrice(finalPrice);
+
+        const priceHTML = product.discount > 0
+            ? `<span class="p-price-new">${formatPrice(finalPrice)}</span>
+               <span class="p-price-old">${formatPrice(product.price)}</span>`
+            : `<span class="p-price-new">${formatPrice(product.price)}</span>`;
+
+        const starsHTML = '★'.repeat(Math.round(product.rating)) + '☆'.repeat(5 - Math.round(product.rating));
+
+        // colours
+        const colorMap = { 'أسود': '#111', 'أبيض': '#fff', 'كحلي': '#00008B', 'رمادي': '#888', 'أحمر': '#C00' };
+        const colorsHTML = product.colors.map((c, i) =>
+            `<button class="clr-btn ${i===0?'active':''}" style="background:${colorMap[c]||'#666'};" data-color="${c}" aria-label="${c}"></button>`
+        ).join('');
+
+        const sizesHTML = product.sizes.map((s, i) =>
+            `<button class="opt-btn ${i===0?'active':''}" data-size="${s}">${s}</button>`
+        ).join('');
+
+        const featuresHTML = product.features.map(f => `<li>${f}</li>`).join('');
+
+        const galleryImgs = product.images.length > 1
+            ? product.images
+            : Array(4).fill(product.images[0]);
+
+        const thumbsHTML = galleryImgs.map((img, i) =>
+            `<div class="p-thumb ${i===0?'active':''}" data-idx="${i}">
+                <img src="${img}" alt="${product.name}" onerror="this.parentElement.innerHTML='<div style=\\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;\\'>👕</div>'">
+             </div>`
+        ).join('');
+
+        const badgeHTML = product.discount > 0
+            ? `<span class="badge badge-sale" style="position:absolute;top:16px;right:16px;z-index:3;">تخفيض</span>`
+            : (product.badge ? `<span class="badge badge-hot" style="position:absolute;top:16px;right:16px;z-index:3;">${product.badge}</span>` : '');
+
+        container.innerHTML = `
+            <div class="product-layout animate-fade-up">
+                <!-- Gallery -->
+                <div>
+                    <div class="p-gallery-main">
+                        ${badgeHTML}
+                        <button class="fav-btn" style="top:16px;left:16px;"><i class="fa-regular fa-heart"></i></button>
+                        <img id="main-img" src="${product.images[0]}" alt="${product.name}"
+                             onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div style=\\'display:flex;align-items:center;justify-content:center;height:100%;font-size:6rem;\\'>👕</div>');">
+                    </div>
+                    <div class="p-thumbs">${thumbsHTML}</div>
+                </div>
+
+                <!-- Info -->
+                <div class="p-info">
+                    <h1 style="font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:8px;">${product.name}</h1>
+
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+                        <span style="color:var(--star-color);font-size:1rem;">${starsHTML}</span>
+                        <span style="color:var(--secondary-text);font-size:0.85rem;font-weight:600;">${product.reviews} تقييم</span>
+                    </div>
+
+                    <div class="p-price-row">${priceHTML}</div>
+
+                    <div class="delivery-badge">
+                        <i class="fa-solid fa-bolt"></i>
+                        <div>
+                            <strong>متوفر للتوصيل الفوري</strong>
+                            <p>يصلك خلال 2-4 أيام في جميع محافظات مصر</p>
+                        </div>
+                    </div>
+
+                    <!-- Colour -->
+                    <div style="margin-bottom:22px;">
+                        <label style="font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:12px;">
+                            اللون: <span id="clr-name" style="font-weight:600;color:var(--secondary-text);">${product.colors[0]}</span>
+                        </label>
+                        <div style="display:flex;gap:12px;">${colorsHTML}</div>
+                    </div>
+
+                    <!-- Size -->
+                    <div style="margin-bottom:28px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <label style="font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;">
+                                المقاس: <span id="size-name" style="font-weight:600;color:var(--secondary-text);">${product.sizes[0]}</span>
+                            </label>
+                            <a href="#" style="font-size:0.8rem;color:var(--secondary-text);text-decoration:underline;">دليل المقاسات</a>
+                        </div>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">${sizesHTML}</div>
+                    </div>
+
+                    <!-- Qty + Cart -->
+                    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+                        <div class="qty-wrap">
+                            <button class="qty-btn" id="qty-plus">+</button>
+                            <input type="number" class="qty-input" id="qty-input" value="1" min="1" max="${product.stock}" readonly>
+                            <button class="qty-btn" id="qty-minus">-</button>
+                        </div>
+                        <button id="add-to-cart" class="btn btn-secondary" style="flex:1;min-width:160px;">
+                            <i class="fa-solid fa-bag-shopping"></i> أضف للسلة
+                        </button>
+                    </div>
+
+                    <button id="order-whatsapp" class="btn btn-primary btn-full btn-lg" style="margin-bottom:8px;">
+                        أتمم الطلب عبر واتساب <i class="fa-brands fa-whatsapp" style="color:#25D366;"></i>
+                    </button>
+
+                    <!-- Trust -->
+                    <div class="p-trust">
+                        <div class="p-trust-item">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>جودة مضمونة</span>
+                        </div>
+                        <div class="p-trust-item">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            <span>الدفع عند الاستلام</span>
+                        </div>
+                        <div class="p-trust-item">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>استبدال 14 يوم</span>
+                        </div>
+                    </div>
+
+                    <!-- Accordions -->
+                    <div class="accordion">
+                        <div class="acc-item open">
+                            <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+                                <span>التفاصيل والمميزات</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="acc-body">
+                                <p>${product.description}</p>
+                                <ul>${featuresHTML}</ul>
+                            </div>
+                        </div>
+                        <div class="acc-item">
+                            <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+                                <span>الخامة والعناية</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="acc-body">
+                                <p><strong>الخامة:</strong> 85% بوليستر، 15% سباندكس — تمدد 4-Way Stretch.</p>
+                                <p><strong>الغسيل:</strong> ماء بارد (≤30°C)، بدون مبيضات، كي على حرارة منخفضة.</p>
+                            </div>
+                        </div>
+                        <div class="acc-item">
+                            <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+                                <span>الشحن والاسترجاع</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="acc-body">
+                                <p><strong>الشحن:</strong> 2-4 أيام عمل لجميع محافظات مصر.</p>
+                                <p><strong>الاسترجاع:</strong> مجاناً خلال 14 يوم من الاستلام إذا كان المنتج بحالته الأصلية.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Thumbnail interaction
+        const mainImg = document.getElementById('main-img');
+        document.querySelectorAll('.p-thumb').forEach(t => {
+            t.addEventListener('click', () => {
+                document.querySelectorAll('.p-thumb').forEach(x => x.classList.remove('active'));
+                t.classList.add('active');
+                mainImg.src = galleryImgs[+t.dataset.idx];
+            });
+        });
+
+        // Colour selection
+        let selectedColor = product.colors[0];
+        document.querySelectorAll('.clr-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.clr-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedColor = btn.dataset.color;
+                document.getElementById('clr-name').textContent = selectedColor;
+            });
+        });
+
+        // Size selection
+        let selectedSize = product.sizes[0];
+        document.querySelectorAll('.opt-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedSize = btn.dataset.size;
+                document.getElementById('size-name').textContent = selectedSize;
+            });
+        });
+
+        // Qty
+        const qtyInput = document.getElementById('qty-input');
+        document.getElementById('qty-minus').onclick = () => { if (+qtyInput.value > 1) qtyInput.value--; };
+        document.getElementById('qty-plus').onclick  = () => { if (+qtyInput.value < product.stock) qtyInput.value++; };
+
+        // Add to cart
+        document.getElementById('add-to-cart').onclick = () => {
+            const qty = +qtyInput.value;
+            const item = { id: `${product.id}-${selectedSize}-${selectedColor}`, productId: product.id, name: product.name, price: finalPrice, image: product.images[0], size: selectedSize, color: selectedColor, quantity: qty };
+            let cart = JSON.parse(localStorage.getItem('vorix-cart')) || [];
+            const idx = cart.findIndex(i => i.id === item.id);
+            if (idx > -1) cart[idx].quantity += qty; else cart.push(item);
+            localStorage.setItem('vorix-cart', JSON.stringify(cart));
+            window.updateCartCount();
+            if (window.showToast) window.showToast(`تم إضافة ${product.name} للسلة!`);
+        };
+
+        // WhatsApp order
+        const doOrder = () => {
+            const qty = +qtyInput.value;
+            let msg = `*طلب جديد — VORIX*%0A`;
+            msg += `المنتج: ${product.name}%0A`;
+            msg += `اللون: ${selectedColor}%0A`;
+            msg += `المقاس: ${selectedSize}%0A`;
+            msg += `الكمية: ${qty}%0A`;
+            msg += `الإجمالي: ${formatPrice(finalPrice * qty)}%0A`;
+            window.location.href = `https://wa.me/201060018512?text=${msg}`;
+        };
+        document.getElementById('order-whatsapp').onclick = doOrder;
+        document.getElementById('mobile-order-btn').onclick = doOrder;
+
+        // Sticky mobile CTA
+        const orderBtn  = document.getElementById('order-whatsapp');
+        const mobileCta = document.getElementById('mobile-cta');
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver(([entry]) => {
+                if (window.innerWidth <= 768) mobileCta.classList.toggle('visible', !entry.isIntersecting);
+            }).observe(orderBtn);
+        }
+
+        // Related products
+        const relatedGrid = document.getElementById('related-grid');
+        if (relatedGrid) {
+            const related = products.filter(p => p.id !== product.id).slice(0, 4);
+            relatedGrid.innerHTML = related.map((p, i) => {
+                const fp = p.price - p.discount;
+                const pHTML = p.discount > 0
+                    ? `<span class="price-new">${formatPrice(fp)}</span><span class="price-old">${formatPrice(p.price)}</span>`
+                    : `<span class="price-new">${formatPrice(p.price)}</span>`;
+                const badge = p.discount > 0 ? `<span class="badge badge-sale">تخفيض</span>` : (p.badge ? `<span class="badge badge-hot">${p.badge}</span>` : '');
+                return `<div class="product-card" style="opacity:0;transform:translateY(20px);transition:all 0.5s var(--ease-out) ${i*0.08}s" data-card>
+                    ${badge}
+                    <button class="fav-btn"><i class="fa-regular fa-heart"></i></button>
+                    <a href="product.html?id=${p.id}"><div class="card-img-wrap">
+                        <img src="${p.images[0]}" alt="${p.name}" onerror="this.parentElement.innerHTML='<div class=\\'card-img-placeholder\\'>👕</div>';">
+                    </div></a>
+                    <div class="card-body">
+                        <div class="card-title"><a href="product.html?id=${p.id}">${p.name}</a></div>
+                        <div class="card-price">${pHTML}</div>
+                        <div class="card-actions"><a href="product.html?id=${p.id}" class="btn btn-secondary btn-full btn-sm">عرض التفاصيل</a></div>
+                    </div>
+                </div>`;
+            }).join('');
+            setTimeout(() => relatedGrid.querySelectorAll('[data-card]').forEach(c => { c.style.opacity='1'; c.style.transform='translateY(0)'; }), 80);
+        }
+    });
+    </script>
+</body>
+</html>

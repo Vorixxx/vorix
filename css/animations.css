@@ -1,0 +1,75 @@
+/* animations.css – VORIX micro-interactions */
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s var(--ease-out),
+                transform 0.65s var(--ease-out);
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============================================================
+   ENTRY ANIMATIONS
+   ============================================================ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in  { animation: fadeIn  0.7s var(--ease-out) forwards; }
+.animate-fade-up  { animation: fadeUp  0.7s var(--ease-out) forwards; }
+.animate-scale-in { animation: scaleIn 0.5s var(--ease-out) forwards; }
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+@keyframes marquee {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(-100%); }
+}
+
+/* ============================================================
+   SLIDE UP CTA
+   ============================================================ */
+@keyframes slideUpCta {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ============================================================
+   PULSE (for live badges)
+   ============================================================ */
+@keyframes pulse-dot {
+    0%, 100% { transform: scale(1);   opacity: 1; }
+    50%       { transform: scale(1.4); opacity: 0.5; }
+}
+.pulse-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse-dot 1.6s ease-in-out infinite;
+}

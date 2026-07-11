@@ -1,0 +1,133 @@
+/* theme.css - VORIX Premium Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+
+:root {
+    /* ==================== COLOR PALETTE ==================== */
+    --clr-white:       #FFFFFF;
+    --clr-off-white:   #F7F7F7;
+    --clr-light-grey:  #F0F0F0;
+    --clr-border:      #E8E8E8;
+    --clr-text:        #111111;
+    --clr-text-muted:  #777777;
+    --clr-dark:        #0D0D0D;
+    --clr-dark-card:   #161616;
+    --clr-burgundy:    #7A1F3D;
+    --clr-burgundy-h:  #9D2B50;
+    --clr-burgundy-bg: #F9F0F3;
+    --clr-success:     #1A7A4A;
+    --clr-star:        #FFB800;
+    --clr-red:         #D32F2F;
+
+    /* ==================== SEMANTIC TOKENS ==================== */
+    --primary-bg:      var(--clr-white);
+    --secondary-bg:    var(--clr-off-white);
+    --card-bg:         var(--clr-off-white);
+    --primary-text:    var(--clr-text);
+    --secondary-text:  var(--clr-text-muted);
+    --accent-color:    var(--clr-burgundy);
+    --accent-hover:    var(--clr-burgundy-h);
+    --border-color:    var(--clr-border);
+    --star-color:      var(--clr-star);
+    --error-color:     var(--clr-red);
+    --success-color:   var(--clr-success);
+
+    /* ==================== TYPOGRAPHY ==================== */
+    --font-main: 'Cairo', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+    /* ==================== SPACING ==================== */
+    --space-xs:  8px;
+    --space-sm:  16px;
+    --space-md:  32px;
+    --space-lg:  64px;
+    --space-xl:  100px;
+
+    /* ==================== SHAPE ==================== */
+    --radius-xs:   4px;
+    --radius-sm:   8px;
+    --radius-md:   14px;
+    --radius-lg:   20px;
+    --radius-xl:   28px;
+    --radius-full: 9999px;
+
+    /* ==================== ELEVATION ==================== */
+    --shadow-xs:    0 1px 4px rgba(0,0,0,0.04);
+    --shadow-sm:    0 2px 12px rgba(0,0,0,0.06);
+    --shadow-md:    0 8px 28px rgba(0,0,0,0.09);
+    --shadow-lg:    0 20px 50px rgba(0,0,0,0.12);
+    --shadow-hover: 0 14px 36px rgba(122,31,61,0.15);
+
+    /* ==================== MOTION ==================== */
+    --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --t-fast:   0.15s;
+    --t-normal: 0.28s;
+    --t-slow:   0.5s;
+    
+    /* ==================== GLASS ==================== */
+    --glass-bg: rgba(255,255,255,0.88);
+}
+
+/* ==================== DARK MODE ==================== */
+[data-theme="dark"] {
+    --primary-bg:    #0D0D0D;
+    --secondary-bg:  #161616;
+    --card-bg:       #1A1A1A;
+    --primary-text:  #F0F0F0;
+    --secondary-text:#8A8A8A;
+    --border-color:  #252525;
+    --shadow-sm:     0 2px 12px rgba(0,0,0,0.4);
+    --shadow-md:     0 8px 28px rgba(0,0,0,0.6);
+    --shadow-lg:     0 20px 50px rgba(0,0,0,0.8);
+    --glass-bg:      rgba(13,13,13,0.88);
+}
+
+/* ==================== BASE ==================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    line-height: 1.6;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    direction: rtl;
+    text-align: right;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--t-normal) var(--ease-in-out),
+                color var(--t-normal) var(--ease-in-out);
+}
+
+a { text-decoration: none; color: inherit; }
+img, video { display: block; max-width: 100%; }
+ul { list-style: none; }
+button { cursor: pointer; font-family: var(--font-main); }
+
+::selection { background: var(--accent-color); color: #fff; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--secondary-bg); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--secondary-text); }
+
+/* ==================== CONTAINER ==================== */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}

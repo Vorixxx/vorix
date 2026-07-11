@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | VORIX</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        .about-hero {
+            background-color: var(--secondary-bg);
+            padding: 150px 0 80px;
+            text-align: center;
+        }
+        .about-content {
+            padding: 80px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">VORIX</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html" style="color: var(--accent-color);">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="header-icons">
+                <button class="icon-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                <a href="cart.html" class="icon-btn"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count" style="display: none;">0</span></a>
+                <button class="icon-btn mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <div class="about-hero">
+        <div class="container animate-slide-up">
+            <h1 style="font-size: 3rem; margin-bottom: 20px;">Redefining Egyptian Sportswear</h1>
+            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">VORIX is a premium athletic wear brand dedicated to performance, aesthetics, and uncompromising quality.</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="about-content">
+            <div class="reveal">
+                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop" alt="Workout" style="border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
+            </div>
+            <div class="reveal">
+                <h2 style="margin-bottom: 20px;">Our Mission</h2>
+                <p style="margin-bottom: 20px; font-size: 1.1rem;">To empower athletes and fitness enthusiasts across Egypt with world-class gear that enhances performance and boosts confidence.</p>
+                <p style="margin-bottom: 20px;">We believe that premium sportswear shouldn't have to be imported. Our products are engineered using the finest materials and advanced compression technology, designed to compete with the biggest global brands.</p>
+                <a href="shop.html" class="btn btn-primary">Shop Collection</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="margin-top: 0; padding-top: 20px; border-top: none;">
+                &copy; 2026 VORIX. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/theme.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

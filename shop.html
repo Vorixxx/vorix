@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسوق الكل | VORIX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .shop-page { padding: 60px 0 100px; }
+        .shop-hero {
+            background: var(--secondary-bg);
+            padding: 80px 0 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 60px;
+        }
+
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 24px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-chip {
+            padding: 7px 18px;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-full);
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: transparent;
+            color: var(--primary-text);
+            cursor: pointer;
+            transition: all var(--t-fast);
+        }
+        .filter-chip:hover { border-color: var(--primary-text); }
+        .filter-chip.active {
+            background: var(--primary-text);
+            color: var(--primary-bg);
+            border-color: var(--primary-text);
+        }
+
+        .sort-select {
+            padding: 8px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-full);
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: var(--primary-bg);
+            color: var(--primary-text);
+            cursor: pointer;
+            outline: none;
+        }
+
+        .products-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+        @media (max-width:1100px) { .products-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width:480px)  { .products-grid { grid-template-columns: repeat(2,1fr); gap:12px; } }
+    </style>
+</head>
+<body>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-item">⚡ شحن سريع لجميع المحافظات</span>
+            <span class="announcement-item">🔥 كود خصم 15%: <span>VORIX15</span></span>
+            <span class="announcement-item">💎 دفع آمن عند الاستلام</span>
+            <span class="announcement-item">⚡ شحن سريع لجميع المحافظات</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="nav-logo">VORIX</a>
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="shop.html" class="active">المنتجات</a>
+                <a href="shop.html">التصنيفات</a>
+                <a href="shop.html">الأكثر مبيعاً</a>
+                <a href="contact.html">تواصل معنا</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="nav-icon-btn"><i class="fa-solid fa-moon"></i></button>
+                <a href="shop.html" class="nav-icon-btn"><i class="fa-solid fa-magnifying-glass"></i></a>
+                <a href="wishlist.html" class="nav-icon-btn"><i class="fa-regular fa-heart"></i></a>
+                <a href="cart.html" class="nav-icon-btn">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count" style="display:none;">0</span>
+                </a>
+                <button class="mobile-menu-btn nav-icon-btn" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Shop Hero -->
+    <div class="shop-hero">
+        <div class="container animate-fade-up">
+            <h1 class="section-title">التشكيلة الكاملة</h1>
+            <p class="section-subtitle text-center" style="margin:10px auto 0;">اختر من أفضل ملابس الكومبرشن الرياضية المصممة لدعم أدائك</p>
+        </div>
+    </div>
+
+    <!-- Shop Content -->
+    <main class="shop-page container">
+        <div class="filter-bar">
+            <div class="filter-chips">
+                <button class="filter-chip active" data-filter="all">الكل</button>
+                <button class="filter-chip" data-filter="compression">كومبرشن</button>
+                <button class="filter-chip" data-filter="sale">تخفيضات</button>
+            </div>
+            <select class="sort-select" id="sort-select">
+                <option value="featured">الأبرز</option>
+                <option value="price-low">السعر: من الأقل</option>
+                <option value="price-high">السعر: من الأعلى</option>
+            </select>
+        </div>
+
+        <div class="products-grid" id="shop-grid">
+            <!-- JS injected -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand-logo">VORIX</div>
+                    <p class="footer-brand-desc">ملابس رياضية فاخرة لمن يرفض الأقل من الأفضل.</p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-btn"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col"><h4>تسوق</h4><ul><li><a href="shop.html">كل المنتجات</a></li><li><a href="shop.html">العروض</a></li></ul></div>
+                <div class="footer-col"><h4>خدمة العملاء</h4><ul><li><a href="contact.html">تواصل معنا</a></li><li><a href="#">الاسترجاع</a></li></ul></div>
+                <div class="footer-col"><h4>معلومات</h4><ul><li><a href="#">من نحن</a></li><li><a href="#">الخصوصية</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p class="footer-copy">&copy; 2026 VORIX.</p></div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const grid = document.getElementById('shop-grid');
+        let current = [...products];
+
+        const buildCard = (p, i) => {
+            const fp = p.price - p.discount;
+            const ph = p.discount > 0
+                ? `<span class="price-new">${formatPrice(fp)}</span><span class="price-old">${formatPrice(p.price)}</span>`
+                : `<span class="price-new">${formatPrice(p.price)}</span>`;
+            const bh = p.discount > 0 ? `<span class="badge badge-sale">تخفيض</span>` : (p.badge ? `<span class="badge badge-hot">${p.badge}</span>` : '');
+            const stars = '★'.repeat(Math.round(p.rating)) + '☆'.repeat(5-Math.round(p.rating));
+            return `<div class="product-card" style="opacity:0;transform:translateY(20px);transition:all 0.5s var(--ease-out) ${i*0.06}s" data-card>
+                ${bh}
+                <button class="fav-btn"><i class="fa-regular fa-heart"></i></button>
+                <a href="product.html?id=${p.id}"><div class="card-img-wrap">
+                    <img src="${p.images[0]}" alt="${p.name}" loading="lazy"
+                         onerror="this.parentElement.innerHTML='<div class=\\'card-img-placeholder\\'>👕</div>';">
+                </div></a>
+                <div class="card-body">
+                    <div class="card-title"><a href="product.html?id=${p.id}">${p.name}</a></div>
+                    <div class="card-rating"><span class="stars" style="color:var(--star-color)">${stars}</span> <span class="count">(${p.reviews})</span></div>
+                    <div class="card-price">${ph}</div>
+                    <div class="card-actions">
+                        <a href="product.html?id=${p.id}" class="btn btn-secondary btn-full btn-sm">عرض التفاصيل</a>
+                    </div>
+                </div>
+            </div>`;
+        };
+
+        const render = (items) => {
+            grid.innerHTML = items.length
+                ? items.map(buildCard).join('')
+                : `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--secondary-text);font-weight:700;">لا توجد منتجات.</div>`;
+            setTimeout(() => grid.querySelectorAll('[data-card]').forEach(c => { c.style.opacity='1'; c.style.transform='translateY(0)'; }), 50);
+        };
+
+        render(current);
+
+        // Filters
+        document.querySelectorAll('.filter-chip').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const f = btn.dataset.filter;
+                if (f === 'all') current = [...products];
+                else if (f === 'sale') current = products.filter(p => p.discount > 0);
+                else current = products.filter(p => p.category === f);
+                document.getElementById('sort-select').dispatchEvent(new Event('change'));
+            });
+        });
+
+        // Sort
+        document.getElementById('sort-select').addEventListener('change', e => {
+            let sorted = [...current];
+            if (e.target.value === 'price-low')  sorted.sort((a,b) => (a.price-a.discount)-(b.price-b.discount));
+            if (e.target.value === 'price-high') sorted.sort((a,b) => (b.price-b.discount)-(a.price-a.discount));
+            render(sorted);
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | VORIX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">VORIX</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+            </nav>
+            <div class="header-icons">
+                <button class="icon-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px; min-height: calc(100vh - 100px); display:flex; justify-content:center; align-items:center;">
+        <div style="width: 100%; max-width: 450px; background: var(--secondary-bg); padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);" class="animate-fade-in">
+            <h2 style="text-align:center; margin-bottom: 30px;">Create Account</h2>
+            <form id="register-form">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" class="input-control" required>
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" class="input-control" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" class="input-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Create Account</button>
+                <p style="text-align:center; margin-top: 20px; font-size: 0.9rem;">Already have an account? <a href="login.html" style="color: var(--accent-color); font-weight:600;">Login</a></p>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/theme.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
